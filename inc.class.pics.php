@@ -1,8 +1,8 @@
 <?php
 /**
-* Fichier à inclure inc.class.pics.php5
+* Fichier Ã  inclure inc.class.pics.php5
 *
-* LICENSE: Paternité - Pas d'Utilisation Commerciale
+* LICENSE: PaternitÃ© - Pas d'Utilisation Commerciale
 *
 * @category inc
 * @package inc.class
@@ -16,33 +16,33 @@
 
 
 /**
- * Création et manipulation d'images
+ * CrÃ©ation et manipulation d'images
  *
- * Création et manipulation d'images grâce à la librairie GD2 et PHP5, attention pensez à activer GD2 !
- * Permet la manipulation d'image (rogner, filtres etc) et leur sauvegarde sans altérer le fichier source.
+ * CrÃ©ation et manipulation d'images grÃ¢ce Ã  la librairie GD2 et PHP5, attention pensez Ã  activer GD2 !
+ * Permet la manipulation d'image (rogner, filtres etc) et leur sauvegarde sans altÃ©rer le fichier source.
  *
  *
- * MIXED	__construct()	: 1 si instanciation réussie sinon lance exception
- * MIXED	newPics()		: Ressource si création de l'image réussie sinon lance exception
+ * MIXED	__construct()	: 1 si instanciation rÃ©ussie sinon lance exception
+ * MIXED	newPics()		: Ressource si crÃ©ation de l'image rÃ©ussie sinon lance exception
  * MIXED	open()			: Ressource si l'image est ouverte correctement sinon lance exception
  * STRING	name			: Retourne le nom d'un fichier sans son extension
  * ARRAY	info			: Retourne la largeur et la hauteur d'une image
- * MIXED	merge()			: 0 si les images n'existent pas, sinon renvoi la resource image de deux images fusionnées
- * MIXED	resize()		: 0 si les images n'existent pas, sinon renvoi la resource image redimensionnée
- * MIXED	crop()			: 0 si les images n'existent pas, sinon renvoi la resource image de deux images rognée
- * RESOURCE filter()		: RESOURCE image avec un filtre appliqué
- * RESOURCE mask()			: RESOURCE image avec un masque d'opacité appliqué sinon 0
- * RESOURCE pattern()		: 1 si motif appliqué sur une image sinon exception
+ * MIXED	merge()			: 0 si les images n'existent pas, sinon renvoi la resource image de deux images fusionnÃ©es
+ * MIXED	resize()		: 0 si les images n'existent pas, sinon renvoi la resource image redimensionnÃ©e
+ * MIXED	crop()			: 0 si les images n'existent pas, sinon renvoi la resource image de deux images rognÃ©e
+ * RESOURCE filter()		: RESOURCE image avec un filtre appliquÃ©
+ * RESOURCE mask()			: RESOURCE image avec un masque d'opacitÃ© appliquÃ© sinon 0
+ * RESOURCE pattern()		: 1 si motif appliquÃ© sur une image sinon exception
  * RESOURCE	display()		: Affiche une ressource image dans le navigateur
- * BOOL		save()			: 1 si la sauvegarde s est correctement déroulé, sauvegarde la ressource courante sous forme d'un fichier image
+ * BOOL		save()			: 1 si la sauvegarde s est correctement dÃ©roulÃ©, sauvegarde la ressource courante sous forme d'un fichier image
  * BOOL		saveByActions()	: Sauvegarde les traitements dans un fichier
  * BOOL		LoadByActions()	: Charge des traitements
- * VOID		reset			: Vide la pile courante de traitement éffectués sur la ressource image
+ * VOID		reset			: Vide la pile courante de traitement Ã©ffectuÃ©s sur la ressource image
  * STRING	__tostring		: Infos sur l'objet courant
  */ 
 
 /**
- * Définition des flags nécessaires.
+ * DÃ©finition des flags nÃ©cessaires.
  */
  	// Type
 	define ('PNG', 'PNG');
@@ -112,19 +112,19 @@ class Pics {
 	
     /**
      * Instanciation de la class ouverture d'une image existante $nameOrLength
-	 * Ou création d'une nouvelle ressource image de longueur $nameOrLength
+	 * Ou crÃ©ation d'une nouvelle ressource image de longueur $nameOrLength
 	 * et de hauteur $height.
 	 *
-	 * @arguments	$nameOrLength	STRING	Chemin d'accès d'une image
+	 * @arguments	$nameOrLength	STRING	Chemin d'accÃ¨s d'une image
 	 *								INT		Largeur d'une nouvelle image
 	 *
 	 * @arguments	$height			NULL	Si $nameOrLength est une chaine
 	 *								INT		Hauteur d'une nouvelle image
 	 *
 	 *
-	 * @return    	TRUE		Si la nouvelle ressource image est crée avec succès
+	 * @return    	TRUE		Si la nouvelle ressource image est crÃ©e avec succÃ¨s
 	 *
-	 * @throw		EXCEPTION	Si $nameOrLength n'est pas un chemin d'accès valide
+	 * @throw		EXCEPTION	Si $nameOrLength n'est pas un chemin d'accÃ¨s valide
 	 *							Ou si $nameOrLength et $height ne sont pas des entiers
      */
 	public function __construct( $nameOrLength, $height = NULL ) {
@@ -158,8 +158,8 @@ class Pics {
 	}
 		
 	/**
-     * Créer une nouvelle ressource image, de largeur $largeur, de hauteur $hauteur, avec comme nombre de couleur
-	 * $flag, de couleur RGB $R, $G, $B, et comme opacité $alpha
+     * CrÃ©er une nouvelle ressource image, de largeur $largeur, de hauteur $hauteur, avec comme nombre de couleur
+	 * $flag, de couleur RGB $R, $G, $B, et comme opacitÃ© $alpha
 	 *
 	 *
 	 * @arguments 	INT $largeur, largeur en pixel
@@ -195,7 +195,7 @@ class Pics {
 	/**
      * Creation d'une ressource image gd
 	 *
-	 * @arguments 	STRING $pictures chemin d'accès à une image
+	 * @arguments 	STRING $pictures chemin d'accÃ¨s Ã  une image
 	 * @return    	BOOL 0 si une erreur est survenuee
 	 *				RESOURCE images
      */
@@ -234,12 +234,12 @@ class Pics {
 	}
 	
 	/**
-     * Renvoie les propriétés d'une image $pictures voir function getimagesize() 
+     * Renvoie les propriÃ©tÃ©s d'une image $pictures voir function getimagesize() 
 	 * dans le manuel PHP
 	 *
-	 * @arguments 	STRING 	$pictures chemin d'accès à une image ou une ressource
+	 * @arguments 	STRING 	$pictures chemin d'accÃ¨s Ã  une image ou une ressource
 	 * @return    	BOOL   	FALSE si une erreur est survenuee
-	 * 						TRUE en cas de succès
+	 * 						TRUE en cas de succÃ¨s
      */
 	protected function infos( $pictures ) {
 		if( !is_resource($pictures) ) {
@@ -254,17 +254,17 @@ class Pics {
 	}
 	
 	/**
-     * Copie une image $picturestomerge avec comme opacité $picturestomergeopacity dans la ressource GD
-	 * courante dans une zone prédéfinie $flag avec une marge $margin , ou à l'endroit souhaité avec
-	 * comme coordonnées ($x_origin, $y_origin).
+     * Copie une image $picturestomerge avec comme opacitÃ© $picturestomergeopacity dans la ressource GD
+	 * courante dans une zone prÃ©dÃ©finie $flag avec une marge $margin , ou Ã  l'endroit souhaitÃ© avec
+	 * comme coordonnÃ©es ($x_origin, $y_origin).
 	 *
-	 * @arguments 	STRING 	$picturestomerge l'image à inserer dans $pictures
+	 * @arguments 	STRING 	$picturestomerge l'image Ã  inserer dans $pictures
 	 *				INT 	$picturestomergeopacity 0 : opaque, 127 transparent
 	 *				CONST	$flag voir set_crop_pics()
-	 *				INT		$x_origin coordonnée x de l'image à coller
-	 *				INT		$y_origin coordonnée y de l'image à coller
-	 *				INT		$margin marge souhaitée en pixel
-	 * @return    	BOOL   	1 en cas de succès
+	 *				INT		$x_origin coordonnÃ©e x de l'image Ã  coller
+	 *				INT		$y_origin coordonnÃ©e y de l'image Ã  coller
+	 *				INT		$margin marge souhaitÃ©e en pixel
+	 * @return    	BOOL   	1 en cas de succÃ¨s
 	 *					   
      */
 	public function merge( $picturestomerge, $flag = CENTER, $picturestomergeopacity = 99, $x_origin = NULL, $y_origin = NULL, $margin = NULL ) {
@@ -354,8 +354,8 @@ class Pics {
 	}
 	
 	/**
-     * Redimensionne l'image courante, avec proportionalité sur la hauteur $new_width, largeur $new_height
-	 * ou selon une taille prédéfinie ($new_width, $new_height)
+     * Redimensionne l'image courante, avec proportionalitÃ© sur la hauteur $new_width, largeur $new_height
+	 * ou selon une taille prÃ©dÃ©finie ($new_width, $new_height)
 	 *
 	 * @arguments 	INT $new_width taille en pixel de la largeur voulue
 	 *				INT $new_height taille en pixel de la hauteur voulue
@@ -422,18 +422,18 @@ class Pics {
 	}
 	
 	/**
-     * Rogne l'image courante de largeur $width_cropt et de hauteur $height_crop a l'endroit prédéfinie $flag, ou selon les
-	 * coordonnées prédefinies ($x_origin, $y_origin) si $flag = custom
+     * Rogne l'image courante de largeur $width_cropt et de hauteur $height_crop a l'endroit prÃ©dÃ©finie $flag, ou selon les
+	 * coordonnÃ©es prÃ©definies ($x_origin, $y_origin) si $flag = custom
 	 *
-	 * @arguments 	STRING $image_saved nom de l'image à sauvegarder
+	 * @arguments 	STRING $image_saved nom de l'image Ã  sauvegarder
 	 *				INT $width_crop taille en pixel de la largeur voulue finale
 	 *				INT $height_crop taille en pixel de la hauteur voulue finale
 	 *				CONT $flag TOP_LEFT, TOP, TOP_RIGHT, RIGHT, BOTOM_RIGHT, BOTTOM, BOTTOM_LEFT, CENTER
 	 *							CUSTOM
-	 *				INT $x_origin Coordonée de l'origin x si $flag = CUSTOM
-	 *				INT $y_origin Coordonée de l'origin y si $flag = CUSTOM
+	 *				INT $x_origin CoordonÃ©e de l'origin x si $flag = CUSTOM
+	 *				INT $y_origin CoordonÃ©e de l'origin y si $flag = CUSTOM
 	 *				
-	 * @return    	BOOL 1 En cas de succès sinon 0
+	 * @return    	BOOL 1 En cas de succÃ¨s sinon 0
      */
 	public function crop( $width_crop, $height_crop, $flag = CENTER, $x_origin = '', $y_origin = '' ) {
 
@@ -534,26 +534,26 @@ class Pics {
 	 * @arguments 	RESSOURCE $ressource une ressource image
 	 *				CONST $filtre	IMG_FILTER_NEGATE		  Negatif de $pictures
 	 *								IMG_FILTER_GRAYSCALE	  Supprime les couleurs
-	 *								IMG_FILTER_BRIGHTNESS	  Luminosité de l'image
+	 *								IMG_FILTER_BRIGHTNESS	  LuminositÃ© de l'image
 	 *									INT $filtre_param_1   obligatoire 255 	: Eclaircir l'image avec un maximum vers le blanc (effet de brillance)
-	 *																	0		: Couleurs inchangées
+	 *																	0		: Couleurs inchangÃ©es
 	 *																	-255 	: Assombrir l'image au maximum vers le noir (effet sombre)
 	 *								IMG_FILTER_CONTRAST		  Contraste de l'image
 	 *									INT $filtre_param_1   obligatoire 255 	: Eclaircir l'image avec un maximum vers le blanc (effet de brillance)
-	 *																	0		: Couleur inchangées
+	 *																	0		: Couleur inchangÃ©es
 	 *																	-255 	: Assombrir l'image au maximum vers le noir (effet sombre)
 	 *								IMG_FILTER_COLORIZE		  Modifie les tendances de couleurs (RGB)
 	 *									INT $filtre_param_1   obligatoire Valeur R [-255, 255]
 	 *									INT $filtre_param_2   obligatoire Valeur G [-255, 255]
 	 *									INT $filtre_param_3   obligatoire Valeur B [-255, 255]
 	 *									INT $filtre_param_4   obligatoire Valeur Alpha [-255, 255]
-	 *								IMG_FILTER_EDGEDETECT	  utilise la détection des bords pour les mettre en évidence dans l'image.
+	 *								IMG_FILTER_EDGEDETECT	  utilise la dÃ©tection des bords pour les mettre en Ã©vidence dans l'image.
 	 *								IMG_FILTER_EMBOSS		  grave l'image en relief
-	 *								IMG_FILTER_GAUSSIAN_BLUR  brouille l'image en utilisant la méthode gaussienne. 
+	 *								IMG_FILTER_GAUSSIAN_BLUR  brouille l'image en utilisant la mÃ©thode gaussienne. 
 	 *								IMG_FILTER_SELECTIVE_BLUR brouille l'image
-	 *								IMG_FILTER_MEAN_REMOVAL   son utilisation signifie le déplacement pour réaliser un effet "peu précis"
-	 *								IMG_FILTER_SMOOTH		  rend l'image lissée (smooth). Utilisez le paramètre args1  pour définir le degré de lissoir [-8, 8]
-	 *								IMG_FILTER_PIXELATE		  applique un effet de pixelisation à l'image; utilise arg1  pour indiquer la taille de bloc, et arg2  pour indiquer le mode de pixelisation. 
+	 *								IMG_FILTER_MEAN_REMOVAL   son utilisation signifie le dÃ©placement pour rÃ©aliser un effet "peu prÃ©cis"
+	 *								IMG_FILTER_SMOOTH		  rend l'image lissÃ©e (smooth). Utilisez le paramÃ¨tre args1  pour dÃ©finir le degrÃ© de lissoir [-8, 8]
+	 *								IMG_FILTER_PIXELATE		  applique un effet de pixelisation Ã  l'image; utilise arg1  pour indiquer la taille de bloc, et arg2  pour indiquer le mode de pixelisation. 
 	 *				
 	 * @return    	BOOL 0 si une erreur est survenue
 	 *				RESOURCE images
@@ -603,15 +603,15 @@ class Pics {
 	}
 
 	/**
-     * Applique un masque d'opacité $mask sur l'image courante
-	 * Attention $mask DOIT être une image PNG avec canal ALPHA (png 24 bits)
+     * Applique un masque d'opacitÃ© $mask sur l'image courante
+	 * Attention $mask DOIT Ãªtre une image PNG avec canal ALPHA (png 24 bits)
 	 *
-	 * @arguments 	RESSOURCE $pictures chemin d'accès d'une image
-	 * 						  $mask chemin d'accès d'une image png
-	 *				CONST $flag RESIZE_TO_PICTURES_SIZE Les dimensions de $mask seront adaptées aux dimensions de $pictures defaut
-	 *							RESIZE_TO_MASK_SIZE     Les dimensions de $pictures seront adaptées aux dimensions de $mask
+	 * @arguments 	RESSOURCE $pictures chemin d'accÃ¨s d'une image
+	 * 						  $mask chemin d'accÃ¨s d'une image png
+	 *				CONST $flag RESIZE_TO_PICTURES_SIZE Les dimensions de $mask seront adaptÃ©es aux dimensions de $pictures defaut
+	 *							RESIZE_TO_MASK_SIZE     Les dimensions de $pictures seront adaptÃ©es aux dimensions de $mask
 	 *				
-	 * @return    	BOOL 1 En cas de succès
+	 * @return    	BOOL 1 En cas de succÃ¨s
 	 *
 	 * @throw EXCEPTION si $flag n'est pas reconnu
      */
@@ -667,11 +667,11 @@ class Pics {
 	
 	/**
      * Applique un pattern (motif) sur toute la surface de l'image
-	 * Attention $pattern DOIT être une image PNG avec canal ALPHA (png 24 bits)
+	 * Attention $pattern DOIT Ãªtre une image PNG avec canal ALPHA (png 24 bits)
 	 *
-	 * @arguments 	$pattern chemin d'accès d'une image PNG
+	 * @arguments 	$pattern chemin d'accÃ¨s d'une image PNG
 	 *				
-	 * @return    	BOOL 1 En cas de succès
+	 * @return    	BOOL 1 En cas de succÃ¨s
 	 *
 	 * @throw EXCEPTION si $pattern n'est pas reconnu
      */
@@ -764,18 +764,18 @@ class Pics {
 	}
 
 	/**
-     * Sauvegarde de la ressource image courante _gdPics sous forme de fichier $savedpictures au format $format de de qualité $quality
+     * Sauvegarde de la ressource image courante _gdPics sous forme de fichier $savedpictures au format $format de de qualitÃ© $quality
 	 *
 	 * @arguments 	CONST $format format de sortie de l'image, PNG, JPEG, JPG, GIF
 	 *
-	 *				STRING $savedpictures Chemin d'accés pour l'image de sortie 
+	 *				STRING $savedpictures Chemin d'accÃ©s pour l'image de sortie 
 	 *
-	 *				INT $quality Qualité de l'image de sortie (compression)
-	 *						PNG : 0 pas de compression à 9
-	 *						JPG : de 0 (pire qualité, petit fichier) et 100 (meilleure qualité, gros fichier)
+	 *				INT $quality QualitÃ© de l'image de sortie (compression)
+	 *						PNG : 0 pas de compression Ã  9
+	 *						JPG : de 0 (pire qualitÃ©, petit fichier) et 100 (meilleure qualitÃ©, gros fichier)
 	 *						GIF : NULL
 	 *				
-	 * @return    	BOOL 1 En cas de succès
+	 * @return    	BOOL 1 En cas de succÃ¨s
 	 *
 	 * @throw EXCEPTION si $flag n'est pas reconnu
      */
@@ -826,14 +826,14 @@ class Pics {
 	}
 	
 	/**
-     * Sauvegarde des differents traitement éffectués sur l'image MAIS ne modifie pas l'image source.
+     * Sauvegarde des differents traitement Ã©ffectuÃ©s sur l'image MAIS ne modifie pas l'image source.
 	 *
 	 * @arguments 	STRING $file Chemin d'un fichier pour sauvegarder les traitements 
 	 *
 	 *				
-	 * @return    	BOOL 1 En cas de succès de la sauvegarde
+	 * @return    	BOOL 1 En cas de succÃ¨s de la sauvegarde
 	 *
-	 * @throw EXCEPTION si $file n'est pas disponible en écriture
+	 * @throw EXCEPTION si $file n'est pas disponible en Ã©criture
      */
 	public function saveByActions( $file ) {
 		if ( !is_writable( $file ) && !fopen( $file , "w" ) ) {
@@ -854,10 +854,10 @@ class Pics {
 	}
 	
 	/**
-     * Charge une série de traitement à éffectués sur une image, ATTENTION le fichier sauvegardé DOIT
-	 * être dans le même dossier que l'image source.
+     * Charge une sÃ©rie de traitement Ã  Ã©ffectuÃ©s sur une image, ATTENTION le fichier sauvegardÃ© DOIT
+	 * Ãªtre dans le mÃªme dossier que l'image source.
 	 *
-	 * @arguments 	STRING $path Chemin d'accès pour charger les traitements 
+	 * @arguments 	STRING $path Chemin d'accÃ¨s pour charger les traitements 
 	 *
 	 *				
 	 * @return    	OBJECT Un nouvel objet Pics
@@ -870,7 +870,7 @@ class Pics {
 		
 		foreach ($lines as $content) {
 			$temp = unserialize($content);
-			// Juste le nom de la méthode à appliquée
+			// Juste le nom de la mÃ©thode Ã  appliquÃ©e
 			$methode = $temp[0];
 			array_shift($temp);
 
@@ -878,10 +878,10 @@ class Pics {
 			if( $compteur != 0 ) {
 				call_user_func_array( array($ret, $methode),  $temp[0]);
 			}
-			// Si c'est le constructeur nous utilisons la reflectivité pour passer des arguments à la méthode __construct
+			// Si c'est le constructeur nous utilisons la reflectivitÃ© pour passer des arguments Ã  la mÃ©thode __construct
 			// chose impossible avec call_user_func_array()
 			else {
-				// Les arguments doivent être sous forme de chaine et non pas de tableau
+				// Les arguments doivent Ãªtre sous forme de chaine et non pas de tableau
 				$callArgs = '';
 				foreach($temp as $args) {
 					$callArgs .= $args;
