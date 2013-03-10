@@ -114,7 +114,7 @@ class Edit {
         if ($crop[0] >= $gdObject->width || $crop[1] >= $gdObject->height) {
             trigger_error("Outbounds cropping");
         }
-        
+
         $image_mini = imagecreatetruecolor($crop[0], $crop[1]);
         if ($origin['x'] != '' && $origin['y'] != '' && $flag = CUSTOM) {
             ImageAlphaBlending($image_mini, false);
@@ -188,9 +188,8 @@ class Edit {
     }
 
     static function merge($gdObject, $fileToMerge, $target = "CENTER", $opacity = 99, $origin = array(), $margin = NULL) {
-        // var_dump($picturestomerge);
         $gdMerge = Img::load($fileToMerge);
-  
+
         static $x;
         static $y;
 
@@ -257,6 +256,6 @@ class Edit {
 
         return $gdObject;
     }
-    
+
 }
 

@@ -1,7 +1,6 @@
-# ORM
+# My.Pics
 
-Simple approche pédagoqique de l'utilisation du design pattern ORM. Tentative de
-reproduire le comportement du plus fameux d'entre eux Doctrine.
+Représentation sous forme d'objet serializable de ressource GD.
 
 ## Table des matières
 
@@ -12,16 +11,19 @@ reproduire le comportement du plus fameux d'entre eux Doctrine.
 
 ## Require
 
-* PHP 5.3+
-* Les drivers PDO nécessaires (Mysql, SQlite etc)
+* GD 2
 
 ## Objectifs
 
-* Simple
-* Léger
-* Verbeux
-* Utile
-* Use namespaces
+* Les ressources GD doivent être sérializable.
+* Sauvegardes non destructives d'édition d'images.
+* Permet de récupérer une image locale ou en ligne.
+* Grammaire à la Jquery, permet le chainage de méthode.
+
+
+## Principe
+
+
 
 ## Fork me i'm famous
 

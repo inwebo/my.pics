@@ -1,5 +1,7 @@
 <?php
+
 namespace LibreMVC;
+
 include 'autoload.php';
 
 
@@ -45,18 +47,16 @@ var_dump($img);
                 echo '<h2>PHAR</h2><p><a href="module.phar">Download me</a></p>';
 
                 try {
-                    $phar = new Phar(__DIR__ . '/phar/'.$projectName.'.phar');
+                    $phar = new Phar(__DIR__ . '/phar/' . $projectName . '.phar');
                     $phar->buildFromDirectory('core/', '/\.php$/');
                     $phar->stopBuffering();
-
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
-
             }
             ?>
             <h2>Pictures</h2>
-                <img src="picture.php">
+            <img src="picture.php">
             <h2>Creation archive PHAR <a href="#top">TOP</a></h2>
             <p>
                 <a href="http://cweiske.de/tagebuch/php-phar-files.htm" target="_blank" title="Why PHAR archive ?">Why PHAR archives ?</a>,
