@@ -1,6 +1,6 @@
 <?php
 namespace LibreMVC;
 include 'autoload.php';
-$img = Img::load('assets/picture.jpg')->pattern("assets/pattern.png")->resize(40,40)->display();
-//var_dump($img);
+$img = Img::load('assets/picture.jpg')->filter(IMG_FILTER_NEGATE)->display();
+//var_dump(IMG_FILTER_NEGATE);
 

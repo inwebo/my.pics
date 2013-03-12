@@ -10,10 +10,25 @@ namespace LibreMVC\Img;
 
 use LibreMVC\Img as Img;
 
+/**
+ * Classe de manipulation d'objet Img. Toutes les méthodes sont <code>static</code>
+ */
 class Edit {
 
+    /**
+     * <p>Redimmensionne la ressource GD d'un objet \LibreMVC\Img.</p>
+     * <p>Il est possible de renseigner l'un <b>ou</b> l'autre des arguments.</p>
+     * <p>Si seulement la hauteur est renseignée, la redimension se fera proportionnellement
+     * à la hauteur. Le ratio est donc conservé. Si seulement la hauteur est renseignée,
+     * le resize sera proportionnel à la nouvelle hauteur. Si les deux arguments sont
+     * renseignés le resize sera arbirtraire.<p>
+     * 
+     * @param \LibreMVC\Img $gdObject Un objet Img
+     * @param int $new_width Largeur souhaitée.
+     * @param int $new_height Hauteur souhaitée.
+     * @return \LibreMVC\Img
+     */
     static public function resize($gdObject, $new_width = NULL, $new_height = NULL) {
-
         // Resize fixed width and height
         if (isset($new_width) && isset($new_height)) {
             $width = $new_width;
@@ -59,17 +74,12 @@ class Edit {
     }
 
     /**
-     * Applique un masque d'opacité $mask sur l'image courante
-     * Attention $mask DOIT être une image PNG avec canal ALPHA (png 24 bits)
+     * <p>Applique un masque d'opacité <code>$mask</code> sur l'image courante</p>
+     * <p>Attention <code>$mask</code> <b>DOIT</b> être une image PNG avec canal ALPHA (png 24 bits)</p>
      *
-     * @arguments 	RESSOURCE $pictures chemin d'accès d'une image
-     * 						  $mask chemin d'accès d'une image png
-     * 				CONST $flag RESIZE_TO_PICTURES_SIZE Les dimensions de $mask seront adaptées aux dimensions de $pictures defaut
-     * 							RESIZE_TO_MASK_SIZE     Les dimensions de $pictures seront adaptées aux dimensions de $mask
-     * 				
-     * @return    	BOOL 1 En cas de succès
-     *
-     * @throw EXCEPTION si $flag n'est pas reconnu
+     * @param \LibreMVC\Img Un objet Img
+     * @param string $mask Chemin d'accés au fichier mask.
+     * @return \LibreMVC\Img
      */
     static public function mask($gdObject, $mask) {
         $gdMask = Img::load($mask);
@@ -86,6 +96,14 @@ class Edit {
         return $gdObject;
     }
 
+    /**
+     * <p>Applique un motif sur l'ensemble d'une image.</p>
+     * <p>Attention <code>$pattern</code> <b>DOIT</b> être une image PNG avec canal ALPHA (png 24 bits)</p>
+     *
+     * @param \LibreMVC\Img Un objet Img
+     * @param string $pattern Chemin d'accés au fichier mask.
+     * @return \LibreMVC\Img
+     */
     static public function pattern($gdObject, $pattern) {
 
         $gdPattern = Img::load($pattern);
@@ -106,17 +124,29 @@ class Edit {
             $x = 0;
             $y += $gdPattern->height;
         }
-        //$gdObject->stack[] = array(__FUNCTION__, func_get_args());
         return $gdObject;
     }
 
-    static public function crop($gdObject, $crop = array(null, null), $flag = "CENTER", $origin = array("x" => null, "y" => null)) {
+    /**
+     * <p>Rogne une image.</p>
+     * <p>Rogne une image <code>$gdObject</code> sur une surface <code>$crop</code> depuis
+     * la position <code>$from</code> <b>ou</b> depuis l'origine (x,y) <code>$origin</code></p>
+     *
+     * @param \LibreMVC\Img Un objet Img
+     * @param array $crop Tableau pour la largeur et la hauteur du rognage souhaité.
+     * @param string $from Position du rognage, parmi : TOP_LEFT, TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM
+     * BOTTOM_LEFT, LEFT
+     * @param array $origin SI <code>$from</code> n'est pas renseigné commence aux coordonnées x,y
+     * @return \LibreMVC\Img
+     * @throws Exception Si <code>$flag</code> n'est pas reconnus.
+     */
+    static public function crop($gdObject, $crop = array(null, null), $from = "CENTER", $origin = array("x" => null, "y" => null)) {
         if ($crop[0] >= $gdObject->width || $crop[1] >= $gdObject->height) {
             trigger_error("Outbounds cropping");
         }
 
         $image_mini = imagecreatetruecolor($crop[0], $crop[1]);
-        if ($origin['x'] != '' && $origin['y'] != '' && $flag = CUSTOM) {
+        if ($origin['x'] != '' && $origin['y'] != '' && $from = CUSTOM) {
             ImageAlphaBlending($image_mini, false);
             ImageSaveAlpha($image_mini, true);
             imagecopyresampled($image_mini, $gdObject->resource, 0, 0, $origin['x'], $origin['y'], $crop[0], $crop[1], $crop[0], $crop[1]);
@@ -125,7 +155,7 @@ class Edit {
             static $x;
             static $y;
 
-            switch ($flag) {
+            switch ($from) {
 
                 case "TOP_LEFT":
                     $x = 0;
@@ -183,10 +213,21 @@ class Edit {
             $gdObject->resource = $image_mini;
         }
 
-        //$this->stack[] = array(__FUNCTION__, func_get_args());
         return $gdObject;
     }
 
+    /**
+     * <p>Fusionne une image dans un objet image.</p>
+     * 
+     * @param \LibreMVC\Img Un objet Img
+     * @param string $fileToMerge Le fichier à fusionner avec l'objet courant
+     * @param string $target Position de de la fusion
+     * @param int $opacity Opacité souhaitée [0,99]
+     * @param array $origin Position personnalisée
+     * @param int $margin Une marge est elle souhaitée
+     * @return \LibreMVC\Img Un objet Img modifié.
+     * @throws Exception Si <code>$target</code> est inconnu.
+     */
     static function merge($gdObject, $fileToMerge, $target = "CENTER", $opacity = 99, $origin = array(), $margin = NULL) {
         $gdMerge = Img::load($fileToMerge);
 
@@ -251,9 +292,6 @@ class Edit {
         }
 
         imagecopymerge($gdObject->resource, $gdMerge->resource, $x, $y, 0, 0, $gdMerge->width, $gdMerge->height, $opacity);
-
-        //$this->stack[] = array(__FUNCTION__, func_get_args());
-
         return $gdObject;
     }
 

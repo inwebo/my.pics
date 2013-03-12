@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Yeah
  * @package LibreMVC
@@ -30,8 +29,6 @@ class GdResource extends Img {
         $this->width = imagesx($this->resource);
     }
 
-    
-    
     protected function resourceFactory($width = 150, $height=80, $color = array('r'=> 255,'g'=>255,'b'=>255,"alpha"=>127), $colorMode = "TRUE_COLOR" ) {
         switch (strtolower($colorMode)) {
             default :
