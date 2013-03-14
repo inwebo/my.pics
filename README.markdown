@@ -1,30 +1,26 @@
 # My.Pics
 
-Représentation sous forme d'objet serializable de ressource GD.
+Simple picture manipulation with php GD.
 
-## Table des matières
+Examples given
+```php
+    // Load an existing local picture
+    Img::load('assets/picture.jpg');
 
-* [Nécessite](#require)
-* [Objectifs](#objectifs)
-* [Principe](#principe)
-* [Dépôt Gihub](#dépôt-Gihub)
+    // Create a new 160x100 px image
+    Img::create(160,100);
 
-## Require
+    // Load a local picture then resize it to 40x40px
+    Img::load('assets/picture.jpg')->resize(40,40);
 
-* GD 2
+    // Load a remote picture, resize it to 500x20 px, save the new picture as jpg to a new file and display it
+    Img::load('http://static.php.net/www.php.net/images/php.gif')->resize(500,20)->saveAs('assets/new.jpg','jpg')->display();
 
-## Objectifs
+    // Load a local image crop it, resize it and apply pattern the save actions for an automated process
+    Img::load('assets/pictures.jpg')->crop(500,20)->resize(100)->pattern('assets/pattern.png')->saveActions('actions/crp.txt');
 
-* Les ressources GD doivent être sérializable.
-* Sauvegardes non destructives d'édition d'images.
-* Permet de récupérer une image locale ou en ligne.
-* Grammaire à la Jquery, permet le chainage de méthode.
+    // Load an action on a local picture then display result
+    Img::load('assets/pictures.jpg')->runActions('actions/crp.txt')->display();
+```
 
-
-## Principe
-
-
-
-## Fork me i'm famous
-
-    git clone git://github.com/inwebo/ORM.git
+Hope this help.
