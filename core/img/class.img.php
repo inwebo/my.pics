@@ -74,7 +74,7 @@ class Img {
 
     /**
      * Current picture gd resource
-     * @var GD
+     * @var resource
      */
     public $resource = null;
 
@@ -118,14 +118,52 @@ class Img {
     }
 
     /**
+     * Extrait les couleurs hexadecimales significatives d'une ressource gd.
+     *
+     * @param bool $fastProcess Si vrai l'image est redimmensionnée avant l'extraction, sinon garde taille original.
+     * @return array Tableau associatif sous la form clef, valeur. La clef est la couleur hexadecimal, la valeur est
+     * le nombre d'occurence.
+     */
+    public function extractColorPalette( $fastProcess = true ) {
+        $average =  Img::load('assets/picture-830.png');
+        if($fastProcess) {
+            $average = $average->resize(150);
+        }
+        $hexarray = array();
+        for ($y=0; $y < $average->height; $y++)
+        {
+            for ($x=0; $x < $average->width; $x++)
+            {
+                $index = imagecolorat( $average->resource ,$x,$y);
+                $Colors = imagecolorsforindex($average->resource,$index);
+                $Colors['red']=intval((($Colors['red'])+15)/32)*32; //ROUND THE COLORS, TO REDUCE THE NUMBER OF COLORS, SO THE WON'T BE ANY NEARLY DUPLICATE COLORS!
+                $Colors['green']=intval((($Colors['green'])+15)/32)*32;
+                $Colors['blue']=intval((($Colors['blue'])+15)/32)*32;
+                if ($Colors['red']>=256)
+                    $Colors['red']=240;
+                if ($Colors['green']>=256)
+                    $Colors['green']=240;
+                if ($Colors['blue']>=256)
+                    $Colors['blue']=240;
+                $hexarray[]=substr("0".dechex($Colors['red']),-2).substr("0".dechex($Colors['green']),-2).substr("0".dechex($Colors['blue']),-2);
+            }
+        }
+        $hexarray=array_count_values($hexarray);
+        natsort($hexarray);
+        $hexarray=array_reverse($hexarray,true);
+        return $hexarray;
+
+    }
+
+    /**
      * Contrtuit la ressource courante depuis une chaine de caractères.
      * 
      * @link http://php.net/manual/fr/function.imagecreatefromstring.php Fonctionnement
-     * @param type $filename A local or remote picture.
-     * @return gd Gdresource created from file.
+     * @param string $filename A local or remote picture.
+     * @return resource Gdresource created from file.
      */
     protected function resourceFactory( $filename ) {
-        return imagecreatefromstring(file_get_contents($filename));
+        return imagecreatefromstring(file_get_contents( $filename ) );
     }
 
     /**
@@ -202,15 +240,15 @@ class Img {
         switch (strtoupper($format)) {
             case "PNG" :
                 ( is_int($quality) && $quality >= 0 && $quality <= 9) ?
-                                imagepng($this->resource, $toFileInfos['dirname'] . '/' . $toFileInfos['basename'], $quality) :
-                                null;
+                    imagepng($this->resource, $toFileInfos['dirname'] . '/' . $toFileInfos['basename'], $quality) :
+                    null;
                 break;
 
             case "JPG" :
             case "JPEG" :
                 ( is_int($quality) && $quality >= 0 && $quality <= 100) ?
-                                imagejpeg($this->resource, $toFileInfos['dirname'] . '/' . $toFileInfos['basename'], $quality) :
-                                null;
+                    imagejpeg($this->resource, $toFileInfos['dirname'] . '/' . $toFileInfos['basename'], $quality) :
+                    null;
                 break;
 
             case "GIF" :
@@ -218,7 +256,7 @@ class Img {
                 break;
 
             default :
-                throw new Exception("Unknown format $format, please try PNG, JPG, GIF");
+                throw new Exception("Unknown mime-type $format, please try PNG, JPG, GIF");
                 break;
         }
         return $this;
@@ -318,7 +356,7 @@ class Img {
     /**
      * Filtre sur la ressource courante.
      * @link http://www.php.net/manual/fr/function.imagefilter.php A voir pour les paramétres
-     * @return Img
+     * @return object
      */
     public function filter($filtre, $filtre_param_1 = '', $filtre_param_2 = '', $filtre_param_3 = '', $filtre_param_4 = '') {
         $this->actions[] = array(__FUNCTION__, func_get_args());

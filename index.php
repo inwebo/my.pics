@@ -34,6 +34,15 @@ $serialize = serialize($img);
 $img = unserialize($serialize);
 //$img->save("public/test.png");
 var_dump($img);
+
+$l = Img::load('assets/picture.jpg')->extractColorPalette();
+var_dump($l);
+$i=0;
+foreach($l as $key => $value ) {
+    //echo '<div style="background-color:#'. trim($key,"'")  .'">&nbsp;</div>';
+    ++$i;
+    echo '<div style="background-color:#'. $key  .';width:50px;">' . $key . '</div>';
+}
 ?>
 <html>
     <body>
