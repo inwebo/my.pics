@@ -3,6 +3,8 @@
 namespace LibreMVC\Img\Driver;
 
 class resourceWriteToFile extends \Exception {}
+class ImgException extends \Exception {}
+class distantResourceException extends \Exception {}
 
 class Driver {
 
@@ -60,9 +62,9 @@ class Driver {
     public function toString(){}
 
     public function convertTo( $type ){
-        switch($type) {
+        switch( $type ) {
             case 'png':
-                return Png::loadFromGd($this->getResource());
+                return Png::loadFromGd( $this->getResource());
                 break;
         }
     }

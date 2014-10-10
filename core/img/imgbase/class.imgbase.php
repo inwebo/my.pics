@@ -8,6 +8,7 @@
 
 namespace LibreMVC\Img;
 
+use LibreMVC\Img\Driver\Bmp;
 use LibreMVC\Img\Driver\Jpg;
 use LibreMVC\Img\Driver\Gif;
 use LibreMVC\Img\Driver\Png;
@@ -69,6 +70,7 @@ class ImgBase {
     protected function resourceFactory( $path ) {
         // Selon le mime-type le bon type d'objet.
         switch($this->_mimeType) {
+            default:
             case 'image/png':
                 return new Png($path);
                 break;
@@ -80,6 +82,10 @@ class ImgBase {
 
             case 'image/gif':
                 return new Gif($path);
+                break;
+
+            case 'image/bmp':
+                return new Bmp($path);
                 break;
         }
 

@@ -27,13 +27,13 @@ use LibreMVC\Img;
         //var_dump( memory_get_usage() );
         //$img = new Img();
         //var_dump($img);
-        $img = new Img("http://www.cfma.org/files/PageLayoutImages/icon_social_linkedIn.jpg");
-        $img->resize(800,800);
+        //$img = new Img("http://www.cfma.org/files/PageLayoutImages/icon_social_linkedIn.jpg");
+        //$img->resize(800,800);
         //$img->save('./pics/big.jpg');
         //var_dump($img->getPalette());
         //$img = new Img($jpg);
         //$img->save();
-        var_dump($img);
+        //var_dump($img);
         //$img = new Img('pics/transparent.png');
         //var_dump($img);
         //var_dump(getimagesize("t"));
@@ -56,7 +56,18 @@ function getIniDirective( $va ) {
 
 </head>
 <body style="background-color: darkgray">
-<a href="pics.php" target="_blank"><img src="pics.php" /></a>
+<h3>Jpg</h3>
+<a href="examples/jpg.php" target="_blank"><img src="examples/jpg.php" /></a>
+<h3>BMP</h3>
+<a href="examples/bmp.php" target="_blank"><img src="examples/bmp.php" /></a>
+<h3>Png</h3>
+<a href="examples/png.php" target="_blank"><img src="examples/png.php" /></a>
+<h3>Gif</h3>
+<a href="examples/gif.php" target="_blank"><img src="examples/gif.php" /></a>
+<h3>Animated Gif</h3>
+<a href="examples/agif.php" target="_blank"><img src="examples/agif.php" /></a>
+<h3>Ico</h3>
+<a href="examples/ico.php" target="_blank"><img src="examples/ico.php" /></a>
 </body>
 </html>
 <hr>

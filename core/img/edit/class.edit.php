@@ -149,7 +149,60 @@ class Edit {
 
     public function crop(){}
 
-    public function merge(){}
+    static function merge(Img $img, $path, $target = "CENTER", $opacity = 99, $origin = array(), $margin = NULL) {
+
+        $layer = Img::load($path);
+
+        $x = 0;
+        $y = 0;
+        switch (strtoupper($target)) {
+            case "TOP_LEFT":
+                $x = 0 + $margin;
+                $y = 0 + $margin;
+                break;
+            case "TOP":
+                $x = ( $img->width - $layer->width) / 2;
+                $y = 0 + $margin;
+                break;
+            case "TOP_RIGHT":
+                $x = ($layer->width - $img->width) - $margin;
+                $y = 0 - $margin;
+                break;
+            case "RIGHT":
+                $x = ($layer->width - $img->width) - $margin;
+                $y = ($layer->height - $img->height) / 2;
+                break;
+            case "BOTTOM_RIGHT":
+                $x = ($layer->width - $img->width) - $margin;
+                $y = ($layer->height - $img->height) - $margin;
+                break;
+            case "BOTTOM":
+                $x = ($layer->width - $img->width) / 2;
+                $y = ($layer->height - $img->height) - $margin;
+                break;
+            case "BOTTOM_LEFT" :
+                $x = 0 + $margin;
+                $y = ($layer->height - $img->height) - $margin;
+                break;
+            case "LEFT" :
+                $x = 0 + $margin;
+                $y = ($layer->height - $img->height) / 2;
+                break;
+            case "CENTER" :
+                $x = floor(( $img->width - $layer->width ) / 2);
+                $y = floor(( $img->height - $layer->height ) / 2);
+                break;
+            case "CUSTOM" :
+                $x = $origin[0];
+                $y = $origin[1];
+                break;
+            default :
+                throw new Exception('Bad $flag, try : TOP_LEFT, TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, CENTER, CUSTOM');
+                break;
+        }
+        imagecopymerge($img->resource, $layer->resource, $x, $y, 0, 0, $layer->width, $layer->height, $opacity);
+        return $img;
+    }
 
     static public function getPalette( Img $img, $fastProcess = false ) {
         $buffer = $img;
@@ -163,8 +216,8 @@ class Edit {
         {
             for ($x=0; $x < $buffer->getWidth(); $x++)
             {
-                $index = imagecolorat( $buffer->getDriver(),$x,$y);
-                $Colors = imagecolorsforindex($buffer->getDriver(),$index);
+                $index = imagecolorat( $buffer->getDriver()->getResource(), $x, $y );
+                $Colors = imagecolorsforindex( $buffer->getDriver()->getResource(), $index );
                 $Colors['red']=intval((($Colors['red'])+15)/32)*32; //ROUND THE COLORS, TO REDUCE THE NUMBER OF COLORS, SO THE WON'T BE ANY NEARLY DUPLICATE COLORS!
                 $Colors['green']=intval((($Colors['green'])+15)/32)*32;
                 $Colors['blue']=intval((($Colors['blue'])+15)/32)*32;
