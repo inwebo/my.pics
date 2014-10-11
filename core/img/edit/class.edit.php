@@ -7,7 +7,10 @@ use LibreMVC\Img;
 class Edit {
 
     static public function resize( $img, $new_width = null, $new_height = null ) {
+        //var_dump($img);
+
         $src =  $img->getDriver()->getResource();
+
         // Resize fixed width and height
         if( isset( $new_width ) && isset( $new_height ) ) {
             $width  = $new_width;
@@ -40,14 +43,25 @@ class Edit {
             }
         }
 
+
+
         $image_mini = imagecreatetruecolor($width, $height);
+        $colorTransparent = imagecolortransparent($src);
+        imagepalettecopy($image_mini,$src);
+        imagefill($image_mini,0,0,$colorTransparent);
+        imagecolortransparent($image_mini, $colorTransparent);
 
-        imagealphablending ( $image_mini, false );
 
-        imagesavealpha($image_mini, true);
+
+        //imagecolortransparent($image_mini,$color);
+        //imagecolortransparent($image_mini, imagecolorallocatealpha($image_mini, 0, 0, 0, 127));
+        //imagealphablending ( $image_mini, false );
+        //imagesavealpha($image_mini, true);
+
         imagecopyresized( $image_mini, $src, 0, 0, 0, 0, $width , $height, $img->getWidth(), $img->getHeight() );
+        //imagecopyresampled( $image_mini, $src, 0, 0, 0, 0, $width , $height, $img->getWidth(), $img->getHeight() );
 
-        imagealphablending ( $image_mini, true );
+        //imagealphablending ( $image_mini, true );
         return $image_mini;
     }
 

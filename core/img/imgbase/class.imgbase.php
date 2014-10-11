@@ -12,6 +12,7 @@ use LibreMVC\Img\Driver\Bmp;
 use LibreMVC\Img\Driver\Jpg;
 use LibreMVC\Img\Driver\Gif;
 use LibreMVC\Img\Driver\Png;
+use LibreMVC\Img\Driver\Ico;
 
 class ImgException extends \Exception {}
 class distantResourceException extends \Exception {}
@@ -46,6 +47,7 @@ class ImgBase {
             $this->_path      = $path;
         }
         $this->_path = $path;
+
     }
 
     public function convertTo($type){
@@ -68,24 +70,29 @@ class ImgBase {
     }
 
     protected function resourceFactory( $path ) {
+
         // Selon le mime-type le bon type d'objet.
         switch($this->_mimeType) {
             default:
-            case 'image/png':
+            case image_type_to_mime_type(IMAGETYPE_PNG):
                 return new Png($path);
                 break;
 
             case 'image/jpg':
-            case 'image/jpeg':
+            case image_type_to_mime_type(IMAGETYPE_JPEG):
                 return new Jpg($path);
                 break;
 
-            case 'image/gif':
+            case image_type_to_mime_type(IMAGETYPE_GIF):
                 return new Gif($path);
                 break;
 
-            case 'image/bmp':
+            case image_type_to_mime_type(IMAGETYPE_BMP):
                 return new Bmp($path);
+                break;
+
+            case image_type_to_mime_type(IMAGETYPE_ICO):
+                return new Ico($path);
                 break;
         }
 
@@ -121,8 +128,8 @@ class ImgBase {
      * @see : http://php.net/manual/en/function.imagecreatetruecolor.php#54025
      * @todo : Test
      */
-    protected function defaultResourceFactory() {
-        $gd     = imagecreatetruecolor(1,1);
+    protected function defaultResourceFactory($width = 1, $height = 1) {
+        $gd     = imagecreatetruecolor($width, $height);
         $color  = imagecolorallocate($gd,0,0,0);
         imagecolortransparent($gd,$color);
         return $gd;
@@ -177,8 +184,8 @@ class ImgBase {
     #endregion
 
     #region Wrapper
-    public function display() {
-        $this->_driver->display();
+    public function display($toString = false) {
+        $this->_driver->display( $toString );
     }
 
     public function save( $path = null, $quality = null ) {
@@ -201,7 +208,7 @@ class ImgBase {
             }
             // Specifier la destination
             else {
-                throw new distantResourceException('Distant file : `' . $path . '` need a target dir.');
+                throw new distantResourceException('Cannot save file : '. $path .' in ' . dirname($path) . ' check if is writable destination');
             }
         }
     }

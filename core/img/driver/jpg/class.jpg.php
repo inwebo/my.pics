@@ -1,7 +1,6 @@
 <?php
 namespace LibreMVC\Img\Driver;
 
-use \LibreMVC\Helpers\Files;
 use \LibreMVC\Img;
 
 /**
@@ -22,10 +21,6 @@ class Jpg extends Driver {
         imagejpeg($this->_resource);
         imagedestroy($this->_resource);
         exit;
-    }
-
-    protected function getPngChannels() {
-
     }
 
     public function save( $path, $quality = self::QUALITY_DEFAULT ) {

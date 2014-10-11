@@ -8,31 +8,37 @@ class distantResourceException extends \Exception {}
 
 class Driver {
 
+    protected $_path;
     protected $_resource;
+    protected $_fileContent;
 
     public function __construct( $path ) {
-
+        $this->_path     = $path;
         // Depuis la function static self::load(); le param est un objet de type gd
         if( is_resource( $path ) ) {
             $this->_resource = $path;
             return $this;
         }
 
-
         // N'est pas une resource GD
         $fileContent = @file_get_contents( $path );
         if( $fileContent === false ) {
             throw new ImgException('File, `' . $path . '` does not exist.');
         }
+        $this->_fileContent = $fileContent;
 
         $resource = @imagecreatefromstring( $fileContent );
 
         if( $resource === false ) {
-            throw new ImgException('File, `' . $path . '` is not a supported format.');
+            // throw new ImgException('File, `' . $path . '` is not a supported format.');
+            //var_dump($fileContent);
+            $this->_resource = $fileContent;
         }
         else {
+
             $this->_resource = $resource;
         }
+
     }
 
     static public function loadFromGd( $gd ) {

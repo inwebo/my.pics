@@ -15,10 +15,22 @@ use LibreMVC\Img;
     $ico ="http://php.net/favicon.ico";
 
     try {
+        $value = "00000001 00000000 00000100 00000000";
+        echo $value;
+        $highMap = 0xffffffff00000000;
+        $lowMap = 0x00000000ffffffff;
+        $higher = ($value & $highMap) >>32;
+        $lower = $value & $lowMap;
+        $packed = pack('NN', $higher, $lower);
+
+        list($higher, $lower) = array_values(unpack('N2', $value));
+        $originalValue = $higher << 32 | $lower;
+        var_dump($originalValue);
+
         //$img = new \LibreMVC\Img("http://php.net/favicon.ico");
         //$img = new \LibreMVC\Img("http://cdn.sstatic.net/stackoverflow/img/favicon.ico?v=038622610830");
         //$img = new \LibreMVC\Img("http://static.php.net/www.php.net/images/php.gif");
-        //$img->save();
+        //$img->save('pics/foo.jpg');
         //$img = new \LibreMVC\Img("mages/php.gif");
         //$img = new Img("pics/php.gif");
         //var_dump($img);
@@ -27,9 +39,9 @@ use LibreMVC\Img;
         //var_dump( memory_get_usage() );
         //$img = new Img();
         //var_dump($img);
-        //$img = new Img("http://www.cfma.org/files/PageLayoutImages/icon_social_linkedIn.jpg");
+        $img = new Img("http://www.cfma.org/files/PageLayoutImages/icon_social_linkedIn.jpg");
         //$img->resize(800,800);
-        //$img->save('./pics/big.jpg');
+        //$img->save('./pics/big-test.jpg');
         //var_dump($img->getPalette());
         //$img = new Img($jpg);
         //$img->save();

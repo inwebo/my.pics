@@ -6,10 +6,9 @@ namespace LibreMVC\Img\Driver;
 class Bmp extends Driver {
 
     public function __construct($path) {
+        parent::__construct($path);
         $this->setResource( $this->read( $path ) );
     }
-
-
 
     /**
      *
@@ -105,15 +104,99 @@ class Bmp extends Driver {
         return $res;
     }
 
-    public function save() {}
-
     public function display( $toString = false ) {
+
         if ( !$toString ) {
-            header('Content-Type: image/png');
+            header('Content-Type: image/bmp');
         }
-        imagepng($this->_resource);
+
+        $this->imagebmp($this->_resource);
         imagedestroy($this->_resource);
         exit;
     }
 
+    private static function byte3($n)
+    {
+        return chr($n & 255) . chr(($n >> 8) & 255) . chr(($n >> 16) & 255);
+    }
+
+    private static function dword($n)
+    {
+        return pack("V", $n);
+    }
+
+    private static function word($n)
+    {
+        return pack("v", $n);
+    }
+
+    /**
+     * http://de77.com/downloads/BMP_v3.zip
+     * @param $img
+     * @param bool $filename
+     */
+    public static function imagebmp(&$img, $filename = false)
+    {
+        $wid = imagesx($img);
+        $hei = imagesy($img);
+        $wid_pad = str_pad('', $wid % 4, "\0");
+
+        $size = 54 + ($wid + $wid_pad) * $hei * 3; //fixed
+
+        //prepare & save header
+        $header['identifier']		= 'BM';
+        $header['file_size']		= self::dword($size);
+        $header['reserved']			= self::dword(0);
+        $header['bitmap_data']		= self::dword(54);
+        $header['header_size']		= self::dword(40);
+        $header['width']			= self::dword($wid);
+        $header['height']			= self::dword($hei);
+        $header['planes']			= self::word(1);
+        $header['bits_per_pixel']	= self::word(24);
+        $header['compression']		= self::dword(0);
+        $header['data_size']		= self::dword(0);
+        $header['h_resolution']		= self::dword(0);
+        $header['v_resolution']		= self::dword(0);
+        $header['colors']			= self::dword(0);
+        $header['important_colors']	= self::dword(0);
+
+        if ($filename)
+        {
+            $f = fopen($filename, "wb");
+            foreach ($header AS $h)
+            {
+                fwrite($f, $h);
+            }
+
+            //save pixels
+            for ($y=$hei-1; $y>=0; $y--)
+            {
+                for ($x=0; $x<$wid; $x++)
+                {
+                    $rgb = imagecolorat($img, $x, $y);
+                    fwrite($f, byte3($rgb));
+                }
+                fwrite($f, $wid_pad);
+            }
+            fclose($f);
+        }
+        else
+        {
+            foreach ($header AS $h)
+            {
+                echo $h;
+            }
+
+            //save pixels
+            for ($y=$hei-1; $y>=0; $y--)
+            {
+                for ($x=0; $x<$wid; $x++)
+                {
+                    $rgb = imagecolorat($img, $x, $y);
+                    echo self::byte3($rgb);
+                }
+                echo $wid_pad;
+            }
+        }
+    }
 }
