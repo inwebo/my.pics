@@ -4,6 +4,7 @@ use LibreMVC\Img;
 
     ini_set('display_errors', 'on');
     include('core/img/autoload.php');
+include('core/bin/autoload.php');
     //$img = \LibreMVC\Img::load("http://cdn.sstatic.net/stackoverflow/img/favicon.ico?v=038622610830");
 
     $folder = './pics/';
