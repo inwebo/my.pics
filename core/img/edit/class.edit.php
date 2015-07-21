@@ -6,9 +6,11 @@ use LibreMVC\Img;
 
 class Edit {
 
-    static public function resize( $img, $new_width = null, $new_height = null ) {
-        //var_dump($img);
+    const IMG_FLIP_HORIZONTAL   = 1;
+    const IMG_FLIP_VERTICAL     = 2;
+    const IMG_FLIP_BOTH         = 3;
 
+    static public function resize( $img, $new_width = null, $new_height = null ) {
         $src =  $img->getDriver()->getResource();
 
         // Resize fixed width and height
@@ -51,17 +53,7 @@ class Edit {
         imagefill($image_mini,0,0,$colorTransparent);
         imagecolortransparent($image_mini, $colorTransparent);
 
-
-
-        //imagecolortransparent($image_mini,$color);
-        //imagecolortransparent($image_mini, imagecolorallocatealpha($image_mini, 0, 0, 0, 127));
-        //imagealphablending ( $image_mini, false );
-        //imagesavealpha($image_mini, true);
-
         imagecopyresized( $image_mini, $src, 0, 0, 0, 0, $width , $height, $img->getWidth(), $img->getHeight() );
-        //imagecopyresampled( $image_mini, $src, 0, 0, 0, 0, $width , $height, $img->getWidth(), $img->getHeight() );
-
-        //imagealphablending ( $image_mini, true );
         return $image_mini;
     }
 
@@ -73,7 +65,6 @@ class Edit {
             $imgResource = $img->getDriver()->getResource();
 
             imagealphablending($imgResource, false);
-
 
             $layerResource = $layer->getDriver()->getResource();
 
@@ -105,16 +96,10 @@ class Edit {
                         $pxl_color['red'], $pxl_color['green'], $pxl_color['blue'], $pxl_alpha['alpha']
                     );
 
-                    //var_dump($pxl_alpha['alpha'] );
-                    //echo 'Origin alpha : ' . $pxl_color['alpha'] . ' <br>';
-                    //echo 'New alpha : ' . $pxl_alpha['alpha'] . ' <br>';
                     imagesetpixel($imgResource, $i, $j, $color);
-                    //echo 'Current alpha : ' .imagecolorsforindex($imgResource, imagecolorat($imgResource, $i, $j))['alpha'] ;
-                    //echo '<br>--------<br>';
-                    //var_dump(imagecolorsforindex($imgResource, imagecolorat($imgResource, $i, $j))['alpha']);
                 }
             }
-            //imageAlphaBlending($imgResource, true);
+
 
             return $imgResource;
         }
@@ -250,5 +235,61 @@ class Edit {
         return $hexarray;
 
     }
+
+    /**
+     * <p>Flip gd resource pixels. 3 modes available, keep alpha channel.</p>
+     * <ul>
+     *  <li> 1 : Flip from left to right</li>
+     *  <li> 2 : Flip from bottom to up</li>
+     *  <li> 3 : Flip both</li>
+     * </ul>
+     * @param resource $img Gd resource
+     * @param int $mode 1, IMG_FLIP_HORIZONTAL. 2, IMG_FLIP_VERTICAL, 3 IMG_FLIP_BOTH
+     * @return void
+     * @see http://php.net/manual/en/function.imageflip.php
+     */
+    static public function flip( &$img, $mode = self::IMG_FLIP_BOTH ){
+
+        $width  = imagesx($img);
+        $height = imagesy($img);
+
+        $buffer = imagecreatetruecolor( $width, $height );
+        $colorTransparent = imagecolortransparent($img);
+        imagepalettecopy($buffer,$img);
+        imagefill($buffer,0,0,$colorTransparent);
+        imagecolortransparent($buffer, $colorTransparent);
+
+        // Each rows
+        for($i=0; $i < $height; ++$i) {
+
+            // Each cols
+            for($j=0; $j < $width; ++$j) {
+
+                $colors = imagecolorat( $img,$j,$i);
+
+                switch($mode) {
+                    case 1:
+                        $x = $width - $j - 1;
+                        $y = $i;
+                        break;
+
+                    case 2:
+                        $x = $j;
+                        $y = $height - $i - 1;
+                        break;
+
+                    case 3:
+                        $x = $width - $j - 1;
+                        $y = $height - $i - 1;
+                        break;
+                }
+
+                imagesetpixel( $buffer, $x, $y, $colors );
+            }
+
+        }
+        $img = $buffer;
+    }
+
 
 }

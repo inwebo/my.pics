@@ -14,11 +14,11 @@ trait Pack {
     static protected $_lowMap  = 0x00000000ffffffff;
 
     static public function word( $data ) {
-        return pack('v', $data )[1];
+        return pack('v', $data );
     }
 
     static public function dword( $data ) {
-        return pack('V', $data )[1];
+        return pack('V', $data );
     }
 
     static public function int64( $int ) {
